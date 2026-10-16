@@ -60,11 +60,11 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--sun);outline-offset
 <div class="wrap" id="app"></div>
 <script>
 const DINO=(m)=>`<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M22 96 q-14 4 -18 -6 q12 2 22 -6 z" fill="#3E9A5A"/><ellipse cx="52" cy="80" rx="32" ry="24" fill="#4CAF6A"/><path d="M40 58 l6 -10 l6 10 M54 56 l6 -11 l6 11 M68 60 l6 -9 l5 10" fill="#F2B33D"/><rect x="66" y="26" width="22" height="46" rx="11" fill="#4CAF6A"/><ellipse cx="88" cy="32" rx="22" ry="17" fill="#4CAF6A"/><ellipse cx="54" cy="86" rx="18" ry="13" fill="#BFE6C8"/>${m==='happy'?'<path d="M87 28 q5 -6 10 0" fill="none" stroke="#24303A" stroke-width="3" stroke-linecap="round"/><path d="M98 38 q-7 8 -16 2" fill="#fff" stroke="#24303A" stroke-width="2.5" stroke-linecap="round"/>':'<circle cx="92" cy="28" r="5" fill="#fff"/><circle cx="93" cy="28" r="2.6" fill="#24303A"/><path d="M96 40 q-6 5 -13 1" fill="none" stroke="#24303A" stroke-width="2.5" stroke-linecap="round"/>'}<circle cx="104" cy="36" r="3.5" fill="#F7A8B3" opacity=".8"/><rect x="34" y="96" width="10" height="16" rx="5" fill="#3E9A5A"/><rect x="58" y="96" width="10" height="16" rx="5" fill="#3E9A5A"/></svg>`;
-const L=[['A','ay','🍎','Apple'],['B','bee','⚽','Ball'],['C','see','🐱','Cat'],['D','dee','🐶','Dog'],['E','ee','🐘','Elephant'],['F','ef','🐟','Fish'],['G','jee','🍇','Grapes'],['H','aitch','🏠','House'],['I','eye','🍦','Ice cream'],['J','jay','🧃','Juice'],['K','kay','🪁','Kite'],['L','el','🦁','Lion'],['M','em','🌙','Moon'],['N','en','👃','Nose'],['O','oh','🍊','Orange'],['P','pee','🐷','Pig'],['Q','queue','👸','Queen'],['R','ar','🐰','Rabbit'],['S','ess','☀️','Sun'],['T','tee','🌳','Tree'],['U','you','☂️','Umbrella'],['V','vee','🚐','Van'],['W','double you','⌚','Watch'],['X','ex','🎁','Box'],['Y','why','🪀','Yo-yo'],['Z','zed','🦓','Zebra']];
+const L=[['A','a','🐔','Ayam'],['B','bi','⚽','Bola'],['C','si','☕','Cawan'],['D','di','🍃','Daun'],['E','i','🍎','Epal'],['F','ef','⛴️','Feri'],['G','ji','🐘','Gajah'],['H','eic','🐯','Harimau'],['I','ai','🐟','Ikan'],['J','je','⏰','Jam'],['K','ke','🐱','Kucing'],['L','el','💡','Lampu'],['M','em','☀️','Matahari'],['N','en','🍍','Nanas'],['O','o','🍊','Oren'],['P','pi','🍌','Pisang'],['Q','kiu','📖','Quran'],['R','ar','🏠','Rumah'],['S','es','🥄','Sudu'],['T','ti','👒','Topi'],['U','yu','🐍','Ular'],['V','vi','🚐','Van'],['W','dabliu','🪁','Wau'],['X','eks','🎵','Xilofon'],['Y','wai','🪀','Yoyo'],['Z','zed','🦒','Zirafah']];
 let voice=null;
-function pickVoice(){const vs=speechSynthesis.getVoices();voice=vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}
+function pickVoice(){const vs=speechSynthesis.getVoices();voice=vs.find(v=>/^ms/i.test(v.lang))||vs.find(v=>/^id/i.test(v.lang))||null}
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
-function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);if(voice)u.voice=voice;u.lang=voice?voice.lang:'en-GB';u.rate=.8;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);if(voice)u.voice=voice;u.lang=voice?voice.lang:'ms-MY';u.rate=.8;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}}
 let ac=null;function blip(ok){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime;(ok?[660,880,1100]:[300,240]).forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0,t+i*.12);g.gain.linearRampToValueAtTime(.18,t+i*.12+.02);g.gain.exponentialRampToValueAtTime(.001,t+i*.12+.3);o.connect(g);g.connect(ac.destination);o.start(t+i*.12);o.stop(t+i*.12+.35)})}catch(e){}}
 const app=document.getElementById('app');
 let mode='belajar',cur=0,G=null;
@@ -78,19 +78,19 @@ function learn(){
   app.innerHTML=head()+`<div class="show" id="card"><span class="L">${x[0]}${x[0].toLowerCase()}</span><span style="text-align:center"><span class="pic">${x[2]}</span><br><span class="w">${x[3]}</span></span></div>
   <div class="abc">${L.map((l,i)=>`<button data-i="${i}" class="${i===cur?'on':''}" aria-label="Huruf ${l[0]}">${l[0]}</button>`).join('')}</div>`;
   wire();
-  app.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;learn();const y=L[cur];say(`${y[1]}. ${y[1]} is for ${y[3]}`);document.getElementById('card').classList.add('hop')});
-  document.getElementById('card').onclick=()=>{const y=L[cur];say(`${y[1]}. ${y[1]} is for ${y[3]}`)};
+  app.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;learn();const y=L[cur];say(`${y[1]}. ${y[1]} untuk ${y[3]}`);document.getElementById('card').classList.add('hop')});
+  document.getElementById('card').onclick=()=>{const y=L[cur];say(`${y[1]}. ${y[1]} untuk ${y[3]}`)};
 }
 function newRound(){
   const order=shuffle(L).slice(0,10);
   G={order,i:0,score:0,stars:[],tries:0};
 }
-function ask(){const t=G.order[G.i];say(`Find the letter ${t[1]}`)}
+function ask(){const t=G.order[G.i];say(`Cari huruf ${t[1]}`)}
 function play(){
   if(!G)newRound();
   if(G.i>=G.order.length){
     app.innerHTML=head('happy')+`<div class="done">${DINO('happy')}<h2>Hebat, Saif!</h2><div class="hud">${G.stars.map(s=>`<span class="${s?'on':''}">⭐</span>`).join('')}</div><button class="big" id="again">Main lagi</button></div>`;
-    wire();say('Well done, Saif!');blip(true);document.getElementById('again').onclick=()=>{G=null;play();ask()};return;
+    wire();say('Hebat, Saif!');blip(true);document.getElementById('again').onclick=()=>{G=null;play();ask()};return;
   }
   const t=G.order[G.i];
   if(!G.opts){G.opts=shuffle([t,...shuffle(L.filter(x=>x!==t)).slice(0,2)])}
@@ -101,8 +101,8 @@ function play(){
   document.getElementById('spk').onclick=ask;
   app.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{
     const o=G.opts[+b.dataset.k];
-    if(o===t){b.classList.add('ok');blip(true);say(`Yes! ${t[1]}. ${t[3]}!`);G.stars[G.i]=G.tries===0;G.i++;G.tries=0;G.opts=null;app.querySelectorAll('[data-k]').forEach(x=>x.disabled=true);setTimeout(()=>{play();if(G.i<G.order.length)setTimeout(ask,250)},1500)}
-    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');blip(false);G.tries++;say(`That is ${o[1]}. Try again!`)}
+    if(o===t){b.classList.add('ok');blip(true);say(`Betul! ${t[1]}. ${t[3]}!`);G.stars[G.i]=G.tries===0;G.i++;G.tries=0;G.opts=null;app.querySelectorAll('[data-k]').forEach(x=>x.disabled=true);setTimeout(()=>{play();if(G.i<G.order.length)setTimeout(ask,250)},1500)}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');blip(false);G.tries++;say(`Itu ${o[1]}. Cuba lagi!`)}
   });
 }
 render();
