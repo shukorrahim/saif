@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Nombor 123 · Saif Belajar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@700;800&display=swap">
+<style>
+/* Layout: two big modes (Belajar = tap a number to hear it and see that many things; Main = count or find the number). Everything is spoken aloud. */
+:root{
+  --bg:#FFF8EC; --surface:#FFFFFF; --ink:#24303A; --muted:#66727C; --line:#F0E2C8; --sun:#F2B33D;
+  --c:#2B8CC4; --c2:#DCEEF8; --good:#3E9A5A; --good-bg:#E2F4E7; --bad:#D9534F;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif; --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{--bg:#1A1712; --surface:#25211A; --ink:#F3EDE2; --muted:#B5AC9C; --line:#3A3326; --sun:#F5C25B; --c:#5CB0E2; --c2:#16303C; --good:#6FCB8A; --good-bg:#1D3324; --bad:#F07E77; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.35;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);-webkit-user-select:none;user-select:none}
+.wrap{max-width:900px;margin:0 auto;padding-block:16px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+button:focus-visible,a:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.home{display:grid;place-items:center;width:56px;height:56px;border-radius:18px;background:var(--surface);border:3px solid var(--line);text-decoration:none;color:var(--ink);font-size:1.6rem;font-weight:800}
+.top h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,2.8rem);color:var(--c);margin:0;flex:1}
+.top svg{width:70px;height:70px;flex:none}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.tabs button{border:3px solid var(--line);background:var(--surface);border-radius:22px;padding:12px;font-family:var(--display);font-weight:800;font-size:1.5rem}
+.tabs button[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#fff}
+.show{display:flex;align-items:center;justify-content:center;gap:18px;background:var(--surface);border:3px solid var(--line);border-radius:30px;padding:16px;margin-bottom:16px;min-height:170px}
+.show .L{font-family:var(--display);font-weight:800;font-size:clamp(5rem,22vw,8rem);line-height:1;color:var(--c)}
+.show .pic{font-size:clamp(4rem,16vw,6rem);line-height:1}
+.show .w{font-family:var(--display);font-weight:800;font-size:1.6rem}
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:10px}
+.abc button{aspect-ratio:1;max-width:100%;border:3px solid var(--line);background:var(--surface);border-radius:20px;font-family:var(--display);font-weight:800;font-size:2.4rem;color:var(--c)}
+.abc button.on{background:var(--c);color:#fff;border-color:var(--c)}
+.ask{display:flex;align-items:center;justify-content:center;gap:12px;margin:6px 0 14px}
+.ask .q{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,6vw,2.2rem)}
+.ask .q b{color:var(--c);font-size:1.4em}
+.spk{width:64px;height:64px;border-radius:50%;border:0;background:var(--c);color:#fff;font-size:1.8rem;flex:none}
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.choices button{aspect-ratio:1;max-width:100%;border:4px solid var(--line);background:var(--surface);border-radius:30px;font-family:var(--display);font-weight:800;font-size:clamp(4rem,18vw,7rem);line-height:1;color:var(--ink)}
+.choices button.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.choices button.no{animation:shake .4s;border-color:var(--bad)}
+.hud{display:flex;justify-content:center;gap:6px;margin:14px 0 0;font-size:1.8rem}
+.hud span{opacity:.25}.hud span.on{opacity:1}
+.done{text-align:center;background:var(--surface);border:3px solid var(--line);border-radius:30px;padding:20px}
+.done svg{width:150px;height:150px}
+.done h2{font-family:var(--display);font-size:2.6rem;margin:4px 0;color:var(--c)}
+.big{border:0;background:var(--c);color:#fff;border-radius:999px;padding:14px 28px;font-family:var(--display);font-weight:800;font-size:1.6rem;margin-top:10px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-14px)}}
+.hop{animation:hop .5s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.lang{display:flex;gap:6px}
+.lang button{border:3px solid var(--line);background:var(--surface);border-radius:14px;padding:4px 10px;font-weight:800}
+.lang button[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#fff}
+.things{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;max-width:420px;font-size:clamp(2rem,8vw,2.8rem);line-height:1.1}
+.count{background:var(--surface);border:3px solid var(--line);border-radius:30px;padding:16px;margin-bottom:14px;display:flex;justify-content:center;min-height:120px;align-items:center}
+.abc{grid-template-columns:repeat(5,1fr)}
+.abc button{font-size:2.6rem}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const DINO=(m)=>`<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M22 96 q-14 4 -18 -6 q12 2 22 -6 z" fill="#3E9A5A"/><ellipse cx="52" cy="80" rx="32" ry="24" fill="#4CAF6A"/><path d="M40 58 l6 -10 l6 10 M54 56 l6 -11 l6 11 M68 60 l6 -9 l5 10" fill="#F2B33D"/><rect x="66" y="26" width="22" height="46" rx="11" fill="#4CAF6A"/><ellipse cx="88" cy="32" rx="22" ry="17" fill="#4CAF6A"/><ellipse cx="54" cy="86" rx="18" ry="13" fill="#BFE6C8"/>${m==='happy'?'<path d="M87 28 q5 -6 10 0" fill="none" stroke="#24303A" stroke-width="3" stroke-linecap="round"/><path d="M98 38 q-7 8 -16 2" fill="#fff" stroke="#24303A" stroke-width="2.5" stroke-linecap="round"/>':'<circle cx="92" cy="28" r="5" fill="#fff"/><circle cx="93" cy="28" r="2.6" fill="#24303A"/><path d="M96 40 q-6 5 -13 1" fill="none" stroke="#24303A" stroke-width="2.5" stroke-linecap="round"/>'}<circle cx="104" cy="36" r="3.5" fill="#F7A8B3" opacity=".8"/><rect x="34" y="96" width="10" height="16" rx="5" fill="#3E9A5A"/><rect x="58" y="96" width="10" height="16" rx="5" fill="#3E9A5A"/></svg>`;
+const BM=['','satu','dua','tiga','empat','lima','enam','tujuh','lapan','sembilan','sepuluh'];
+const EN=['','one','two','three','four','five','six','seven','eight','nine','ten'];
+const THINGS=['🍎','🐟','⭐','🚗','🦆','🍌','🎈','🐞','🦕','⚽'];
+const T={ms:{how:'Berapa banyak?',find:n=>'Cari nombor '+BM[n],yes:n=>'Betul! '+BM[n]+'!',no:n=>'Itu '+BM[n]+'. Cuba lagi!',well:'Hebat, Saif!',name:n=>BM[n],lab:'Kira!',lab2:'Cari nombor'},
+         en:{how:'How many?',find:n=>'Find the number '+EN[n],yes:n=>'Yes! '+EN[n]+'!',no:n=>'That is '+EN[n]+'. Try again!',well:'Well done, Saif!',name:n=>EN[n],lab:'How many?',lab2:'Find'}};
+let lang='ms';try{lang=localStorage.getItem('saifLang')||'ms'}catch(e){}
+let vMs=null,vEn=null;
+function pickVoice(){const vs=speechSynthesis.getVoices();vMs=vs.find(v=>/^ms/i.test(v.lang))||null;vEn=vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const v=lang==='ms'?vMs:vEn;if(v)u.voice=v;u.lang=lang==='ms'?'ms-MY':'en-GB';u.rate=.8;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}}
+let ac=null;function blip(ok){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime;(ok?[660,880,1100]:[300,240]).forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0,t+i*.12);g.gain.linearRampToValueAtTime(.18,t+i*.12+.02);g.gain.exponentialRampToValueAtTime(.001,t+i*.12+.3);o.connect(g);g.connect(ac.destination);o.start(t+i*.12);o.stop(t+i*.12+.35)})}catch(e){}}
+const app=document.getElementById('app');
+let mode='belajar',cur=1,G=null;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const things=(n,e)=>`<div class="things">${Array(n).fill(e).map(x=>`<span>${x}</span>`).join('')}</div>`;
+function head(m){return `<div class="top"><a class="home" href="../" aria-label="Kembali ke laman utama">⌂</a><h1>Nombor 123</h1><div class="lang"><button data-l="ms" aria-pressed="${lang==='ms'}">BM</button><button data-l="en" aria-pressed="${lang==='en'}">EN</button></div>${DINO(m||'')}</div>
+<div class="tabs"><button id="tb" aria-pressed="${mode==='belajar'}">Belajar</button><button id="tm" aria-pressed="${mode==='main'}">Main</button></div>`}
+function wire(){document.getElementById('tb').onclick=()=>{mode='belajar';render()};document.getElementById('tm').onclick=()=>{mode='main';G=null;render();ask()};
+  app.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{lang=b.dataset.l;try{localStorage.setItem('saifLang',lang)}catch(e){}render();if(mode==='main')ask();else say(T[lang].name(cur))})}
+function render(){mode==='belajar'?learn():play()}
+function learn(){
+  app.innerHTML=head()+`<div class="show" id="card"><span class="L">${cur}</span>${things(cur,THINGS[cur-1])}</div>
+  <div class="abc">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button data-i="${n}" class="${n===cur?'on':''}" aria-label="Nombor ${n}">${n}</button>`).join('')}</div>`;
+  wire();
+  app.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;learn();say(T[lang].name(cur));document.getElementById('card').classList.add('hop')});
+  document.getElementById('card').onclick=()=>say(T[lang].name(cur));
+}
+function newRound(){
+  const nums=shuffle([1,2,3,4,5,6,7,8,9,10]);
+  G={qs:nums.map((n,k)=>({n,type:k%2?'find':'count',emo:THINGS[Math.floor(Math.random()*THINGS.length)]})),i:0,stars:[],tries:0};
+}
+function ask(){if(!G||G.i>=G.qs.length)return;const q=G.qs[G.i];say(q.type==='count'?T[lang].how:T[lang].find(q.n))}
+function play(){
+  if(!G)newRound();
+  if(G.i>=G.qs.length){
+    app.innerHTML=head('happy')+`<div class="done">${DINO('happy')}<h2>${T[lang].well}</h2><div class="hud">${G.stars.map(s=>`<span class="${s?'on':''}">⭐</span>`).join('')}</div><button class="big" id="again">Main lagi</button></div>`;
+    wire();say(T[lang].well);blip(true);document.getElementById('again').onclick=()=>{G=null;play();ask()};return;
+  }
+  const q=G.qs[G.i];
+  if(!G.opts){let o=[q.n];while(o.length<3){const r=1+Math.floor(Math.random()*10);if(!o.includes(r))o.push(r)}G.opts=shuffle(o)}
+  const prompt=q.type==='count'?`<span class="q">${T[lang].lab}</span>`:`<span class="q">${T[lang].lab2} <b>${q.n}</b></span>`;
+  app.innerHTML=head()+`<div class="ask"><button class="spk" id="spk" aria-label="Dengar lagi">🔊</button>${prompt}</div>
+  ${q.type==='count'?`<div class="count">${things(q.n,q.emo)}</div>`:''}
+  <div class="choices">${G.opts.map((o,k)=>`<button data-k="${k}" aria-label="${o}">${o}</button>`).join('')}</div>
+  <div class="hud">${G.qs.map((_,k)=>`<span class="${k<G.i&&G.stars[k]?'on':''}">⭐</span>`).join('')}</div>`;
+  wire();
+  document.getElementById('spk').onclick=ask;
+  app.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{
+    const o=G.opts[+b.dataset.k];
+    if(o===q.n){b.classList.add('ok');blip(true);say(T[lang].yes(q.n));G.stars[G.i]=G.tries===0;G.i++;G.tries=0;G.opts=null;app.querySelectorAll('[data-k]').forEach(x=>x.disabled=true);setTimeout(()=>{play();setTimeout(ask,250)},1500)}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');blip(false);G.tries++;say(T[lang].no(o))}
+  });
+}
+render();
+</script>
+<script src="../music.js"></script>
+</body>
+</html>
