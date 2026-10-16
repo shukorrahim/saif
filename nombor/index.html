@@ -72,7 +72,7 @@ const EN=['','one','two','three','four','five','six','seven','eight','nine','ten
 const THINGS=['🍎','🐟','⭐','🚗','🦆','🍌','🎈','🐞','🦕','⚽'];
 const T={ms:{how:'Berapa banyak?',find:n=>'Cari nombor '+BM[n],yes:n=>'Betul! '+BM[n]+'!',no:n=>'Itu '+BM[n]+'. Cuba lagi!',well:'Hebat, Saif!',name:n=>BM[n],lab:'Kira!',lab2:'Cari nombor'},
          en:{how:'How many?',find:n=>'Find the number '+EN[n],yes:n=>'Yes! '+EN[n]+'!',no:n=>'That is '+EN[n]+'. Try again!',well:'Well done, Saif!',name:n=>EN[n],lab:'How many?',lab2:'Find'}};
-let lang='ms';try{lang=localStorage.getItem('saifLang')||'ms'}catch(e){}
+const lang='ms';
 let vMs=null,vEn=null;
 function pickVoice(){const vs=speechSynthesis.getVoices();vMs=vs.find(v=>/^ms/i.test(v.lang))||null;vEn=vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
@@ -82,10 +82,9 @@ const app=document.getElementById('app');
 let mode='belajar',cur=1,G=null;
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const things=(n,e)=>`<div class="things">${Array(n).fill(e).map(x=>`<span>${x}</span>`).join('')}</div>`;
-function head(m){return `<div class="top"><a class="home" href="../" aria-label="Kembali ke laman utama">⌂</a><h1>Nombor 123</h1><div class="lang"><button data-l="ms" aria-pressed="${lang==='ms'}">BM</button><button data-l="en" aria-pressed="${lang==='en'}">EN</button></div>${DINO(m||'')}</div>
+function head(m){return `<div class="top"><a class="home" href="../" aria-label="Kembali ke laman utama">⌂</a><h1>Nombor 123</h1>${DINO(m||'')}</div>
 <div class="tabs"><button id="tb" aria-pressed="${mode==='belajar'}">Belajar</button><button id="tm" aria-pressed="${mode==='main'}">Main</button></div>`}
-function wire(){document.getElementById('tb').onclick=()=>{mode='belajar';render()};document.getElementById('tm').onclick=()=>{mode='main';G=null;render();ask()};
-  app.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{lang=b.dataset.l;try{localStorage.setItem('saifLang',lang)}catch(e){}render();if(mode==='main')ask();else say(T[lang].name(cur))})}
+function wire(){document.getElementById('tb').onclick=()=>{mode='belajar';render()};document.getElementById('tm').onclick=()=>{mode='main';G=null;render();ask()};}
 function render(){mode==='belajar'?learn():play()}
 function learn(){
   app.innerHTML=head()+`<div class="show" id="card"><span class="L">${cur}</span>${things(cur,THINGS[cur-1])}</div>
