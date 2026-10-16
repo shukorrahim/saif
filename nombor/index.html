@@ -74,9 +74,10 @@ const T={ms:{how:'Berapa banyak?',find:n=>'Cari nombor '+BM[n],yes:n=>'Betul! '+
          en:{how:'How many?',find:n=>'Find the number '+EN[n],yes:n=>'Yes! '+EN[n]+'!',no:n=>'That is '+EN[n]+'. Try again!',well:'Well done, Saif!',name:n=>EN[n],lab:'How many?',lab2:'Find'}};
 const lang='ms';
 let vMs=null,vEn=null;
-function pickVoice(){const vs=speechSynthesis.getVoices();vMs=vs.find(v=>/^ms/i.test(v.lang))||null;vEn=vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}
+function pickVoice(){const vs=speechSynthesis.getVoices();vMs=vs.find(v=>/^ms[-_]MY/i.test(v.lang))||vs.find(v=>/^ms/i.test(v.lang))||null;vEn=vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
-function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const v=lang==='ms'?vMs:vEn;if(v)u.voice=v;u.lang=lang==='ms'?'ms-MY':'en-GB';u.rate=.8;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}}
+function warn(){if(document.getElementById('vwarn'))return;const d=document.createElement('div');d.id='vwarn';d.style.cssText='max-width:900px;margin:10px auto 0;padding:10px 14px;border-radius:16px;background:#FFF1CC;color:#5a4300;font:700 15px/1.4 Nunito,system-ui,sans-serif';d.textContent='Suara Bahasa Melayu belum ada pada iPad ini, jadi bunyinya seperti Bahasa Indonesia. Pasang suara Melayu: Settings → Accessibility → Spoken Content → Voices → Malay, kemudian buka semula halaman ini.';document.body.prepend(d)}
+function say(t){try{if(!vMs){pickVoice();if(!vMs)warn()}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const v=lang==='ms'?vMs:vEn;if(v)u.voice=v;u.lang=lang==='ms'?'ms-MY':'en-GB';u.rate=.8;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}}
 let ac=null;function blip(ok){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime;(ok?[660,880,1100]:[300,240]).forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0,t+i*.12);g.gain.linearRampToValueAtTime(.18,t+i*.12+.02);g.gain.exponentialRampToValueAtTime(.001,t+i*.12+.3);o.connect(g);g.connect(ac.destination);o.start(t+i*.12);o.stop(t+i*.12+.35)})}catch(e){}}
 const app=document.getElementById('app');
 let mode='belajar',cur=1,G=null;
