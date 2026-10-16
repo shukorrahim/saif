@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Saif Belajar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&family=Noto+Naskh+Arabic:wght@700&display=swap">
+<style>
+/* Layout: a friendly dinosaur guide over big chunky tiles a 4-year-old can tap; each tile is a picture first, a word second. */
+:root{
+  --bg:#FFF8EC; --surface:#FFFFFF; --ink:#24303A; --muted:#66727C; --line:#F0E2C8; --sun:#F2B33D;
+  --dino:#4CAF6A; --abc:#E4572E; --num:#2B8CC4; --hij:#2E9E7A; --shape:#8E5BC8; --ani:#E89A1C;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif; --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#1A1712; --surface:#25211A; --ink:#F3EDE2; --muted:#B5AC9C; --line:#3A3326; --sun:#F5C25B;
+  --dino:#6FCB8A; --abc:#F27A57; --num:#5CB0E2; --hij:#5CC7A3; --shape:#B48BE6; --ani:#F2B44F; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.4;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:900px;margin:0 auto;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2{font-family:var(--display);line-height:1.05;margin:0}
+.hero{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.hero svg{width:120px;height:120px;flex:none}
+.hero h1{font-size:clamp(2.4rem,9vw,3.6rem);font-weight:800;color:var(--dino)}
+.hero p{margin:4px 0 0;color:var(--muted);font-size:1.15rem;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.sub{--c:var(--dino);display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;text-decoration:none;color:inherit;background:var(--surface);border:3px solid var(--line);border-radius:28px;padding:20px 14px 18px;position:relative;transition:transform .15s,border-color .15s}
+.sub .pic{width:110px;height:110px;border-radius:30px;background:var(--c);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:2.6rem;line-height:1}
+.sub .pic.em{font-size:4rem}
+.sub .pic.ar{font-family:"Noto Naskh Arabic","Amiri",serif;font-size:2.4rem;direction:rtl}
+.sub h2{font-size:1.6rem;font-weight:800;color:var(--c)}
+.sub .tag{font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 12px;background:var(--line);color:var(--muted)}
+a.sub:hover{transform:translateY(-4px);border-color:var(--c)}
+a.sub .tag{background:var(--c);color:#fff}
+a.sub:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
+.sub.soon .pic{opacity:.55}
+.shapes{display:flex;gap:6px;align-items:center}
+.shapes i{display:block;background:#fff}
+.shapes .c{width:26px;height:26px;border-radius:50%}
+.shapes .s{width:24px;height:24px;border-radius:4px}
+.shapes .t{width:0;height:0;background:none;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:26px solid #fff}
+.foot{margin-top:28px;text-align:center;color:var(--muted);font-size:.9rem}
+@media (max-width:440px){.hero svg{width:90px;height:90px}.sub .pic{width:90px;height:90px;font-size:2.2rem}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hero svg{animation:bob 3s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <svg viewBox="0 0 120 120" aria-hidden="true">
+      <path d="M22 96 q-14 4 -18 -6 q12 2 22 -6 z" fill="#3E9A5A"/>
+      <ellipse cx="52" cy="80" rx="32" ry="24" fill="#4CAF6A"/>
+      <path d="M40 58 l6 -10 l6 10 M54 56 l6 -11 l6 11 M68 60 l6 -9 l5 10" fill="#F2B33D"/>
+      <rect x="66" y="26" width="22" height="46" rx="11" fill="#4CAF6A"/>
+      <ellipse cx="88" cy="32" rx="22" ry="17" fill="#4CAF6A"/>
+      <ellipse cx="54" cy="86" rx="18" ry="13" fill="#BFE6C8"/>
+      <circle cx="92" cy="28" r="5" fill="#fff"/><circle cx="93" cy="28" r="2.6" fill="#24303A"/>
+      <path d="M96 40 q-6 5 -13 1" fill="none" stroke="#24303A" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="104" cy="36" r="3.5" fill="#F7A8B3" opacity=".8"/>
+      <rect x="34" y="96" width="10" height="16" rx="5" fill="#3E9A5A"/><rect x="58" y="96" width="10" height="16" rx="5" fill="#3E9A5A"/>
+      <path d="M74 62 q8 4 8 12" fill="none" stroke="#3E9A5A" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div><h1>Saif Belajar</h1><p>Jom main sambil belajar dengan Dino!</p></div>
+  </header>
+
+  <main class="grid">
+    <div class="sub soon" style="--c:var(--abc)"><span class="pic">ABC</span><h2>Huruf</h2><span class="tag">Akan datang</span></div>
+    <div class="sub soon" style="--c:var(--num)"><span class="pic">123</span><h2>Nombor</h2><span class="tag">Akan datang</span></div>
+    <div class="sub soon" style="--c:var(--hij)"><span class="pic ar">ا ب ت</span><h2>Hijaiyah</h2><span class="tag">Akan datang</span></div>
+    <div class="sub soon" style="--c:var(--shape)"><span class="pic"><span class="shapes"><i class="c"></i><i class="s"></i><i class="t"></i></span></span><h2>Warna &amp; Bentuk</h2><span class="tag">Akan datang</span></div>
+    <div class="sub soon" style="--c:var(--ani)"><span class="pic em">🐘</span><h2>Haiwan</h2><span class="tag">Akan datang</span></div>
+  </main>
+
+  <p class="foot">Dibina dengan kasih sayang untuk Saif.</p>
+</div>
+</body>
+</html>
